@@ -21,8 +21,8 @@ This function plots the CSMF of the fitted results.
 \examples{
 \donttest{
 data("RandomVA3")
-test <- RandomVA3$test
-train <- RandomVA3$train
+test <- RandomVA3[1:200, ]
+train <- RandomVA3[201:400, ]
 allcauses <- unique(train$cause)
 fit <- tariff(causes.train = "cause", symps.train = train,
 				symps.test = test, causes.table = allcauses)

@@ -18,3 +18,18 @@ NULL
 
 
 
+#' Grouping of causes in RandomVA3
+#' 
+#' This is a matrix specifying a default grouping of the causes used in RandomVA3.
+#' 
+#' 
+#' @name SampleCategory3
+#' @docType data
+#' @format 17 by 2 matrix
+#' @keywords datasets
+#' @examples
+#' 
+#' data(SampleCategory3)
+#' SampleCategory3
+
+NULL

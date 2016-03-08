@@ -44,8 +44,8 @@ This function implements Tariff method.
 \examples{
 \donttest{
 data("RandomVA3")
-test <- RandomVA3$test
-train <- RandomVA3$train
+test <- RandomVA3[1:200, ]
+train <- RandomVA3[201:400, ]
 allcauses <- unique(train$cause)
 fit <- tariff(causes.train = "cause", symps.train = train,
 				symps.test = test, causes.table = allcauses)
@@ -59,13 +59,13 @@ Zehang Li, Tyler McCormick, Sam Clark
 Maintainer: Zehang Li <lizehang@uw.edu>
 }
 \references{
+James, S. L., Flaxman, A. D., Murray, C. J., & Population Health Metrics Research Consortium. (2011). \emph{Performance of the Tariff Method: validation of a simple additive algorithm for analysis of verbal autopsies.} \emph{Population Health Metrics, 9(1), 1-16.}
+
 Tyler H. McCormick, Zehang R. Li, Clara Calvert, Amelia C.
 Crampin, Kathleen Kahn and Samuel J. Clark(2014) \emph{Probabilistic
 cause-of-death assignment using verbal autopsies},
 \url{http://arxiv.org/abs/1411.3042} \emph{Working paper no. 147, Center
 for Statistics and the Social Sciences, University of Washington}
-
-James, S. L., Flaxman, A. D., Murray, C. J., & Population Health Metrics Research Consortium. (2011). \emph{Performance of the Tariff Method: validation of a simple additive algorithm for analysis of verbal autopsies.} \emph{Population Health Metrics, 9(1), 1-16.}
 }
 \keyword{Tariff}
 

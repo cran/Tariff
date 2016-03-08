@@ -11,8 +11,8 @@
 #' 
 #' \donttest{
 #' data("RandomVA3")
-#' test <- RandomVA3$test 
-#' train <- RandomVA3$train 
+#' test <- RandomVA3[1:200, ]
+#' train <- RandomVA3[201:400, ]
 #' allcauses <- unique(train$cause)
 #' fit <- tariff(causes.train = "cause", symps.train = train, 
 #' 			symps.test = test, causes.table = allcauses)
@@ -20,7 +20,7 @@
 #' accuracy <- length(correct) / dim(test)[1]
 #' summary(fit)
 #' summary(fit, top = 10)
-#' summary(fit, id = "7835", top = 3)
+#' summary(fit, id = "p849", top = 3)
 #' }
 #' 
 summary.tariff <- function(object, top = 5, id = NULL, ...){
@@ -31,7 +31,7 @@ summary.tariff <- function(object, top = 5, id = NULL, ...){
 	out$N <- dim(object$score)[1]
 	if(!is.null(id)){
 		index <- which(rownames(object$score) == id)
-		if(is.null(index)){
+		if(length(index) == 0){
 			stop("Error: provided ID not found")
 		}else{
 			out$indiv.top <- 1:top
