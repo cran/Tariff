@@ -1,13 +1,13 @@
-cf13311478ea6b877f3ffb8ebb53fda6 *DESCRIPTION
+f4598e3fe2bccec5b4433b0124e76a75 *DESCRIPTION
 a85052562d3354fe44e27c19916873a9 *NAMESPACE
 606f9584bc04ab4234b02a85b203f675 *R/Tariff.plot.r
-48038637ea668435edcd57410bcf3062 *R/Tariff.r
+19e99808a12439d4adf533596b875ebd *R/Tariff.r
 5709ecbe04197597a8eaa0cdec11e0ea *R/Tariff_1.0-package.R
 2d8a7eeba786cdfee26f9c8ff3c2a80b *R/Tarrif.summary.r
 e719d8126b9f3e205171eea6f9f0663c *R/zzz.R
 6853991ca78eec2e09d5a5e70b059660 *data/RandomVA3.rda
 e75766fc7dbb1a0b2abef235d74bd1b8 *data/SampleCategory3.rda
-f8bf563539313c5d272e59696c8f4fa0 *inst/NEWS.Rd
+0dc14068e0f75977d91cad0b0ecd57e6 *inst/NEWS.Rd
 2b021eb05092616beb7667b35ef044aa *man/RandomVA3.Rd
 0d05c1a19da48435af93519c2c9261c3 *man/SampleCategory3.Rd
 0b26669b1089ac59109a87c9a70bcc17 *man/plot.tariff.Rd
