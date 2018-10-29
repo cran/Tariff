@@ -11,7 +11,7 @@
 #' @param symps.test N.test by S matrix 
 #' @param causes.table list of causes in the data
 #' @param use.rank logical indicator for whether using ranks instead of scores
-#' @param nboot.rank number of re-sampling for baseline rank comparison
+#' @param nboot.rank number of re-sampling for baseline rank comparison. Default to 1, which resamples training data to have a uniform cause distribution of the same size. Set this to 0 removes bootstrapping the training dataset.
 #' @param use.sig logical indicator for whether using significant Tariff only
 #' @param nboot.sig  number of re-sampling for testing significance.
 #' @param use.top logical indicator for whether the tariff matrix should be cleaned to have only top symptoms
@@ -100,7 +100,7 @@ tariff <- function(causes.train, symps.train, symps.test, causes.table = NULL,  
 	#   causelist   : C vector
 	#   binary      : boolean indicating "Y" or 1
 	# @return
-	#    count matrix (C by S)
+	#    count matrix (C by S), normalized!
 	count.combo <- function(symps, causes, causelist, binary){
 		cond.count <- matrix(0, length(causelist), dim(symps)[2])
 	 	for(i in 1:length(causelist)){
@@ -117,9 +117,9 @@ tariff <- function(causes.train, symps.train, symps.test, causes.table = NULL,  
 			}
 			# remove missing from calculation
 			if(binary){
-				count <- apply(cases, 2, function(x){length(which(x == 1))})
+				count <- apply(cases, 2, function(x){length(which(x == 1))/length(x)})
 			}else{
-				count <- apply(cases, 2, function(x){length(which(x == "Y"))})
+				count <- apply(cases, 2, function(x){length(which(x == "Y"))/length(x)})
 			}
 			cond.count[i, ] <-  count
 		}
@@ -257,18 +257,27 @@ tariff <- function(causes.train, symps.train, symps.test, causes.table = NULL,  
 	# second bootstrap step, getting Tariff score dist using uniform cause dist 
 	# factor of each resampling draw. Truncate N.train to multiple of C
 	if(use.rank){
-		factor <- trunc(N.train / C)
-		all.score.boot <- matrix(0, nboot.rank * factor * C, C)
+		if(nboot.rank == 0){
+			nboot.rank <- 1
+			resample.rank <- FALSE
+			all.score.boot <- matrix(0, N.train, C)
+		}else{
+			resample.rank <- TRUE
+			factor <- trunc(N.train / C)
+			all.score.boot <- matrix(0, nboot.rank * factor * C, C)
+		}
+
 
 		# calculate which deaths are by which cause
 		index.by.cause <- lapply(causes.table2, function(k){which(causes.train == k)})
-		for(i in 1:nboot.rank){
-			sample.boot <- rep(0, C*factor)
-			# re-sample stratified by cause
-			for(j in 1:C){
-				sample.boot[((j-1)*factor + 1):(j * factor)] <- sample(index.by.cause[[j]]
-					, factor, replace = TRUE)
-			}
+		if(resample.rank){
+			for(i in 1:nboot.rank){
+				sample.boot <- rep(0, C*factor)
+				# re-sample stratified by cause
+				for(j in 1:C){
+					sample.boot[((j-1)*factor + 1):(j * factor)] <- sample(index.by.cause[[j]]
+						, factor, replace = TRUE)			
+				}
 			symps.boot <- symps.num[sample.boot, ]
 			cause.boot <- causes.train[sample.boot]
 			# count.boot <- count.combo(symps.boot, cause.boot, causes.table, binary=T)
@@ -277,6 +286,12 @@ tariff <- function(causes.train, symps.train, symps.test, causes.table = NULL,  
 			score.boot <- tariff %*% t(symps.boot)
 			all.score.boot[((i-1)*factor*C + 1) : (i*factor*C), ] <- t(score.boot)
 			# if(i %% 10 == 0) cat(".")
+		}
+		}else{
+			symps.boot <- symps.num 
+			cause.boot <- causes.train
+			score.boot <- tariff %*% t(symps.boot)
+			all.score.boot <- t(score.boot)
 		}	
 	}
 

@@ -19,7 +19,7 @@ tariff(causes.train, symps.train, symps.test, causes.table = NULL,
 
 \item{use.rank}{logical indicator for whether using ranks instead of scores}
 
-\item{nboot.rank}{number of re-sampling for baseline rank comparison}
+\item{nboot.rank}{number of re-sampling for baseline rank comparison. Default to 1, which resamples training data to have a uniform cause distribution of the same size. Set this to 0 removes bootstrapping the training dataset.}
 
 \item{use.sig}{logical indicator for whether using significant Tariff only}
 
